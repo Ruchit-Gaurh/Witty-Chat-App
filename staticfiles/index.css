@@ -1,0 +1,180 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+/* Header styles */
+header {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* Main chat container styles */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    width: 400px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+.chat-title {
+    font-size: 24px;
+    text-align: center;
+}
+
+/* User list styles */
+.user-list {
+    list-style: none;
+    padding: 0;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+    cursor: pointer; /* Add cursor pointer for clickable effect */
+}
+
+.user:hover {
+    background-color: #f5f5f5;
+}
+
+.user img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 20px;
+    border: 2px solid #007bff;
+}
+
+.user-info {
+    flex-grow: 1;
+}
+
+.user-info h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+    color: #007bff;
+}
+
+.last-message {
+    font-size: 1rem;
+    color: #777;
+}
+
+/* Style for the last user (remove border) */
+.user:last-child {
+    border-bottom: none;
+}
+
+/* Remove underlines from users */
+.user, .user:hover {
+    text-decoration: none;
+}
+
+/* Add these styles to your existing CSS */
+
+/* Search container styles */
+.search-container {
+    padding: 5px;
+    display: flex;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Search input styles */
+#user-search {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+/* Search button styles */
+#search-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the search button */
+#search-button:hover {
+    background-color: #0056b3;
+}
+
+
+/* ... (previous styles) ... */
+
+/* Search results styles */
+.search-results {
+max-height: 150px; /* Limit the height to avoid excessive scrolling */
+overflow-y: auto; /* Add a scrollbar if needed */
+margin-top: 10px;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+cursor: pointer;
+}
+
+/* Search result item styles */
+.user-result {
+margin-bottom: 10px;
+padding: 10px;
+background-color: #f5f5f5;
+border-radius: 5px;
+transition: background-color 0.2s;
+}
+
+/* Hover effect for search result items */
+.user-result:hover {
+background-color: #e0e0e0;
+}
+
+/* Style for the username in search results */
+.user-result strong {
+font-weight: bold;
+color: #007bff;
+}
+
+/* Style for the email in search results */
+.user-result span {
+color: #777;
+}

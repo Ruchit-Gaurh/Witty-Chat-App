@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Witty App</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+</head>
+<body>
+    <main>
+        <div class="register-container">
+            <div class="register-header">
+                <h1 class="register-title">Register</h1>
+            </div>
+            <form class="register-form" action="register" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="f_name">Name</label>
+                    <input type="name" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="pic_url">Profile Photo URL</label>
+                    <input type="url" id="url" name="url" placeholder="Leave black for default photo" >
+                </div>
+                <button class="register-button" type="submit">Register</button>
+            </form>
+            <div class="login-link">
+                <p>Already have an account? <a href="login_page">Login</a></p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

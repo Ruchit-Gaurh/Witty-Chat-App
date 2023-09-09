@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witty App</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'chat.css' %}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1 class="chat-title">{{friend.profile.name}}</h1>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            {% for chat in chats %}
+            <!-- Messages will be displayed here -->
+            {% if chat.msgsender == user and chat.msgreciver == profile %}
+            <div class="chat-message sender">
+                <div class="message-text">
+                    {{chat}}
+                </div>
+            </div>
+            {% elif chat.msgsender == profile and chat.msgreciver == user %}
+            <div class="chat-message">
+                <div class="message-text">
+                    {{chat}}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+        <form id="myform" action="" class="chat-input-container" method="POST">
+            {% csrf_token %}
+            {{form.body}}
+            <!-- <input type="text" id="message" class="chat-input" placeholder="Type your message and press Enter..."> -->
+            <button id="send" class="chat-button">Send</button>
+        </form>
+    </div>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+
+        // Function to scroll to the bottom of the chat messages
+        function scrollToBottom() {
+            var chatMessages = document.getElementById("chat-messages");
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Scroll to the bottom when the page loads
+        window.onload = scrollToBottom;
+
+        // Function to add a new message
+        let form = document.getElementById("myform")
+        form.addEventListener("submit", sendChat)
+
+        function sendChat(e){
+            e.preventDefault()
+            let chatMessage = document.getElementById("id_body").value
+
+            const data = {'msg' : chatMessage}
+            let url = "{% url 'sent_msg' friend.profile.id %}"
+
+            fetch(url, {
+                method: 'POST',
+                headers : {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify(data),
+            }).then(response => response.json()).then(data => {
+                let mainch = document.getElementById("chat-messages")
+                let chatMessageBox = document.createElement("div")
+                chatMessageBox.classList.add("chat-message", "sender")
+                let chatmsgchild = document.createElement("div")
+                chatmsgchild.classList.add("message-text")
+                chatmsgchild.textContent = data
+                chatMessageBox.appendChild(chatmsgchild)
+                mainch.appendChild(chatMessageBox)
+                document.getElementById("id_body").value = ""
+                scrollToBottom()
+            }).catch((error) => {
+                console.error('Error: ', error)
+            })
+
+        }
+
+        const eventSource = new EventSource(
+            "{% url 'sse_chat' friend.profile.id %}"
+        );
+
+
+
+        eventSource.onmessage = function (event){
+            console.log("chala")
+            receiveMessages();
+        }
+
+
+        let counter = {{num}}
+
+        function receiveMessages(){
+
+            let url = "{% url 'receive_msg' friend.profile.id %}"
+            
+            fetch(url).then(response => response.json()).then(data => {
+                console.log('Success: ', data);
+                if(data.length == 0){}
+                else{
+                    let lastmsg = data[data.length-1]
+                    if (counter == data.length){}
+                    else{
+                        let mainch = document.getElementById("chat-messages")
+                        let chatMessageBox = document.createElement("div")
+                        chatMessageBox.classList.add("chat-message")
+                        let chatmsgchild = document.createElement("div")
+                        chatmsgchild.classList.add("message-text")
+                        chatmsgchild.textContent = lastmsg
+                        chatMessageBox.appendChild(chatmsgchild)
+                        mainch.appendChild(chatMessageBox)
+                        scrollToBottom()
+                    }
+                }
+                counter = data.length
+            }).catch((error) => {
+                console.error('Error: ', error)
+            })
+
+
+        }
+    </script>
+</body>
+</html>
