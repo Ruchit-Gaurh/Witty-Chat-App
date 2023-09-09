@@ -101,16 +101,18 @@
 
         }
 
-        const eventSource = new EventSource(
-            "{% url 'sse_chat' friend.profile.id %}"
-        );
+        // const eventSource = new EventSource(
+        //     "{% url 'sse_chat' friend.profile.id %}"
+        // );
 
 
 
-        eventSource.onmessage = function (event){
-            console.log("chala")
-            receiveMessages();
-        }
+        // eventSource.onmessage = function (event){
+        //     console.log("chala")
+        //     receiveMessages();
+        // }
+
+        setInterval(receiveMessages, 2000)
 
 
         let counter = {{num}}

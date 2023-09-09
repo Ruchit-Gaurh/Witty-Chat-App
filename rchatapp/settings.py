@@ -37,8 +37,21 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "mainchat"
+    "mainchat",
+    "channels",
 ]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('localhost', 6379)],
+        },
+    },
+}
+
+ASGI_APPLICATION = 'rchatapp.routing.application'
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
