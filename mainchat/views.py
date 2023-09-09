@@ -104,6 +104,8 @@ def receiveMessages(request, idf):
 def sse_chat_view(request, idf):
     response = StreamingHttpResponse(event_stream(request, idf), content_type="text/event-stream")
     response["Cache-Control"] = "no-cache"
+    response["Connectiobn"] = "keep-alive"
+    response["X-Accel-Buffering"] = "no"
 
     return response
 
