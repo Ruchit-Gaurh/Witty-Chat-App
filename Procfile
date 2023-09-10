@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py collectstatic --no-input && gunicorn rchatapp.wsgi
+web: python manage.py migrate && gunicorn rchatapp.wsgi
