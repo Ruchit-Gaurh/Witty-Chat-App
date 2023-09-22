@@ -40,7 +40,7 @@ def chat(request, idf):
     friend = Friend.objects.get(profile_id=idf)
     user = request.user.profile
     profile = Profile.objects.get(id=friend.profile.id)
-    chats = ChatMessage.objects.all()
+    chats = ChatMessage.objects.all().order_by("id")
     rec_chats = ChatMessage.objects.filter(msgsender=profile, msgreciver=user)
     rec_chats.update(seen=True)
     form = ChatMessageForm()

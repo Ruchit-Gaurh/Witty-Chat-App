@@ -33,12 +33,17 @@
         <form id="myform" action="" class="chat-input-container" method="POST">
             {% csrf_token %}
             {{form.body}}
-            <!-- <input type="text" id="message" class="chat-input" placeholder="Type your message and press Enter..."> -->
-            <button id="send" class="chat-button">Send</button>
+            <button id="send" class="chat-button" type="submit">Send</button>
         </form>
     </div>
 
     <script>
+
+                document.getElementById('message').focus();
+
+
+        
+
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -68,11 +73,21 @@
 
         // Function to add a new message
         let form = document.getElementById("myform")
+        const messageInput = document.getElementById('message');
+
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendChat(event);
+            }
+        });
+
+
         form.addEventListener("submit", sendChat)
 
         function sendChat(e){
             e.preventDefault()
-            let chatMessage = document.getElementById("id_body").value
+            let chatMessage = messageInput.value
 
             const data = {'msg' : chatMessage}
             let url = "{% url 'sent_msg' friend.profile.id %}"
@@ -93,24 +108,16 @@
                 chatmsgchild.textContent = data
                 chatMessageBox.appendChild(chatmsgchild)
                 mainch.appendChild(chatMessageBox)
-                document.getElementById("id_body").value = ""
+                messageInput.value = '';
                 scrollToBottom()
             }).catch((error) => {
                 console.error('Error: ', error)
             })
+            
 
         }
 
-        // const eventSource = new EventSource(
-        //     "{% url 'sse_chat' friend.profile.id %}"
-        // );
 
-
-
-        // eventSource.onmessage = function (event){
-        //     console.log("chala")
-        //     receiveMessages();
-        // }
 
         setInterval(receiveMessages, 2000)
 
