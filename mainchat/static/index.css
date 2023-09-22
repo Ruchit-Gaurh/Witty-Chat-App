@@ -89,6 +89,11 @@ main {
     color: #777;
 }
 
+.see{
+    color: black;
+    font-weight: bold;
+}
+
 /* Style for the last user (remove border) */
 .user:last-child {
     border-bottom: none;

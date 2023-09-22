@@ -7,16 +7,33 @@ from .models import Profile, Friend, ChatMessage
 from .forms import ChatMessageForm
 import json
 import time
+from django.db.models import Q
+import datetime
+from django.utils import timezone
+
 
 # Create your views here.
 @login_required(login_url="/chats/login_page")
 def index(request):
     user = request.user.profile
     friends = user.friends.all()
-    context = {'user': user, 'friends':friends}
+
+    # Get the last message for each friend.
+    last_messages = {}
+    for friend in friends:
+        last_message = ChatMessage.objects.filter(
+            Q(msgsender=friend.profile, msgreciver=user)
+            | Q(msgsender=user ,msgreciver=friend.profile)
+        ).order_by('-sent_at').first()
+        if(last_message):
+            last_messages[friend.profile] = last_message
+
+        # Sort the friends by the last message they have sent.
+        friends = sorted(friends, key=lambda friend: last_messages.get(friend.profile, ChatMessage(sent_at=timezone.make_aware(timezone.datetime.min, timezone.get_current_timezone()))).sent_at, reverse=True)    
+        context = {'user': user, 'friends': friends, 'last_messages':last_messages}
     return render(request, "mainchat/index.html", context)
 
-def loginkr(request):
+def loginkr(request): 
     return HttpResponse("<h2> jyada teez mt chl jo link bheji usse open kr")
 
 def chat(request, idf):

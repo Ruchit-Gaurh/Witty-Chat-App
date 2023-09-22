@@ -28,7 +28,16 @@
                     <img src="{{friend.profile.pic}}" alt="User Profile">
                     <div class="user-info">
                         <h2>{{friend.profile.name}}</h2>
-                        <p class="last-message">Hi there! How are you doing today?</p>
+                        {% load mainchat_filters %}
+                        {% if last_messages %}
+                        {% if friend|check_for_seen %}
+                        <p class="last-message">{{ friend | get_last_message }}</p>
+                        {% else %}
+                        {% if friend|get_last_message %}
+                        <p class="last-message see">{{ friend | get_last_message }}</p>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
                     </div>
                 </a>
                 {% endfor %}
