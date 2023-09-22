@@ -30,7 +30,7 @@ def index(request):
 
         # Sort the friends by the last message they have sent.
         friends = sorted(friends, key=lambda friend: last_messages.get(friend.profile, ChatMessage(sent_at=timezone.make_aware(timezone.datetime.min, timezone.get_current_timezone()))).sent_at, reverse=True)    
-        context = {'user': user, 'friends': friends, 'last_messages':last_messages}
+    context = {'user': user, 'friends': friends, 'last_messages':last_messages}
     return render(request, "mainchat/index.html", context)
 
 def loginkr(request): 
