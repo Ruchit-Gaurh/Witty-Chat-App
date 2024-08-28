@@ -2,7 +2,7 @@
 
 Witty Chat App is a real-time chat application built using Django that allows users to chat with friends in real-time. This project uses SSE for instant messaging and includes user authentication, friend requests, and chat message history.
 
-Demo:- https://witty.up.railway.app/
+Demo:- ~~https://witty.up.railway.app/~~ (Currently Working on a working on a new version which will have chatbot in it and users will also be able to train their own chatbot via chat interface)
 
 ## Features
 
